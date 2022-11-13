@@ -1,6 +1,7 @@
-import { NextFunction, Request, Response, Router } from 'express';
+import express, { NextFunction, Request, Response, Router } from 'express';
 import UserGetController from '../../controllers/UserGetController';
 import UserPostController from '../../controllers/UserPostController';
+import bodyParser from 'body-parser';
 
 class UserRouter {
     private _router = Router();
@@ -19,23 +20,29 @@ class UserRouter {
      * Connect routes to their matching controller endpoints.
      */
     private _configure() {
+        this._router.use(bodyParser.urlencoded({
+            extended: true
+        }));
+        this._router.use(bodyParser.json())
         this._router.get('/', (req: Request, res: Response, next: NextFunction) => {
-            try {
-                const result = this._getController.defaultMethod();
-                res.status(200).json(result);
-            }
-            catch (error) {
-                next(error);
-            }
+            this._getController.getUser(req, res);
+            // try {
+            //     const result = this._getController.defaultMethod();
+            //     res.status(200).json(result);
+            // }
+            // catch (error) {
+            //     next(error);
+            // }
         });
         this._router.post('/', (req: Request, res: Response, next: NextFunction) => {
-            try {
-                const result = this._postController.defaultMethod();
-                res.status(200).json(result);
-            }
-            catch (error) {
-                next(error);
-            }
+            const result = this._postController.postUser(req, res);
+            // try {
+            //     const result = this._postController.postUser(req, res);
+            //     res.status(200).json(result);
+            // }
+            // catch (error) {
+            //     next(error);
+            // }
         });
     }
 }

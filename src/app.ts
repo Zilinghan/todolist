@@ -4,6 +4,7 @@ import MasterRouter from './routers/MasterRouter';
 import ErrorHandler from './models/ErrorHandler';
 const secrets = require('./config/secret.ts');
 const mongoose = require('mongoose');
+import bodyParser from 'body-parser';
 
 
 // load the environment variables from the .env file
@@ -16,12 +17,19 @@ class Server {
     public router = MasterRouter;
 }
 
-mongoose.connect(secrets.mongo_connection, {useNewUrlParser: true});
-
 // initialize server app
 const server = new Server();
 
 mongoose.connect(secrets.mongo_connection, {useNewUrlParser: true});
+console.log("Connected to the database successfully!");
+
+var allowCrossDomain = function (req:any, res:any, next:any) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    next();
+};
+server.app.use(allowCrossDomain);
 
 // make server app handle any route starting with '/api'
 server.app.use('/api', server.router);
@@ -34,6 +42,12 @@ server.app.use((err: ErrorHandler, req: Request, res: Response, next: NextFuncti
         message: err.message
     });
 });
+
+// Use the body-parser package in our application
+server.app.use(bodyParser.urlencoded({
+    extended: true
+}));
+server.app.use(bodyParser.json());
 
 // make server listen on some port
 ((port = process.env.APP_PORT || 5000) => {

@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import GroupGetController from '../../controllers/GroupGetController';
 import GroupPostController from '../../controllers/GroupPostController';
+import bodyParser from "body-parser";
 
 class GroupRouter {
     private _router = Router();
@@ -19,6 +20,10 @@ class GroupRouter {
      * Connect routes to their matching controller endpoints.
      */
     private _configure() {
+        this._router.use(bodyParser.urlencoded({
+            extended: true
+        }));
+        this._router.use(bodyParser.json())
         this._router.get('/', (req: Request, res: Response, next: NextFunction) => {
             try {
                 const result = this._getController.defaultMethod();
