@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import ThemeARouter from './themeA/ThemeARouter';
-import ThemeBRouter from './themeB/ThemeBRouter';
+import UserRouter from './User/UserRouter';
+import TaskRouter from './Task/TaskRouter';
+import GroupRouter from  './Group/GroupRouter';
 
 class MasterRouter {
     private _router = Router();
-    private _subrouterA = ThemeARouter;
-    private _subrouterB = ThemeBRouter;
+    private _subrouterUser = UserRouter;
+    private _subrouterTask = TaskRouter;
+    private _subrouterGroup = GroupRouter;
 
     get router() {
         return this._router;
@@ -19,8 +21,9 @@ class MasterRouter {
      * Connect routes to their matching routers.
      */
     private _configure() {
-        this._router.use('/themeA', this._subrouterA);
-        this._router.use('/themeB', this._subrouterB);
+        this._router.use('/users', this._subrouterUser);
+        this._router.use('/tasks', this._subrouterTask);
+        this._router.use('/groups', this._subrouterGroup);
     }
 }
 
