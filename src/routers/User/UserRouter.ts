@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response, Router } from 'express';
-import UserGetController from '../../controllers/UserGetController';
-import UserPostController from '../../controllers/UserPostController';
+import UserGetController from '../../controllers/user_controllers/UserGetController';
+import UserPostController from '../../controllers/user_controllers/UserPostController';
 import bodyParser from 'body-parser';
 
 class UserRouter {
