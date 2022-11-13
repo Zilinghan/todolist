@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import TaskGetController from '../../controllers/TaskGetController';
-import TaskPostController from '../../controllers/TaskPostController';
+import TaskGetController from '../../controllers/task_controllers/TaskGetController';
+import TaskPostController from '../../controllers/task_controllers/TaskPostController';
 import bodyParser from "body-parser";
 
 class TaskRouter {

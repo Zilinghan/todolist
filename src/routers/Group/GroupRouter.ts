@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import GroupGetController from '../../controllers/GroupGetController';
-import GroupPostController from '../../controllers/GroupPostController';
+import GroupGetController from '../../controllers/group_controllers/GroupGetController';
+import GroupPostController from '../../controllers/group_controllers/GroupPostController';
 import bodyParser from "body-parser";
 
 class GroupRouter {
