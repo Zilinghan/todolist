@@ -1,6 +1,5 @@
 import {Request, Response} from "express";
-
-const User = require('../models/User');
+const User = require('../../models/User');
 
 class UserPostController {
     defaultMethod() {

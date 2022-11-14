@@ -1,19 +1,16 @@
 const Task = require('../../models/Task');
 
-class TaskGetController {
+class TaskIdGetController {
     defaultMethod() {
         return {
             text: `You've reached the ${this.constructor.name} default method`
         };
     }
 
-    async getTask(req:any, res: any){
+    async getIdTask(req:any, res: any){
         try{
-            const task = await Task.find(req.query.where == null ? {} : JSON.parse(req.query.where))
-                .limit(parseInt(req.query.limit))
+            const task = await Task.find({_id: req.params.id})
                 .select(req.query.select == null ? {} : JSON.parse(req.query.select))
-                .sort(req.query.sort == null ? {} : JSON.parse(req.query.sort))
-                .skip(req.query.skip == null ? 0 : parseInt(req.query.skip));
             if (task.length === 0) {
                 return res.status(404).json({
                     message: "Task not found!",
@@ -30,12 +27,12 @@ class TaskGetController {
         }
         catch (error) {
             console.log(error);
-            return res.status(500).json({
-                message: "Sorry, we meet some sever error for getting you the data.",
+            return res.status(404).json({
+                message: "Task not found!",
                 data: null
             })
         }
     }
 }
 
-export = new TaskGetController();
+export = new TaskIdGetController();
