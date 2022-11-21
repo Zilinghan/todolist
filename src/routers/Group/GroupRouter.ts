@@ -4,6 +4,7 @@ import GroupPostController from '../../controllers/group_controllers/GroupPostCo
 import bodyParser from "body-parser";
 const GroupIdGetController = require('../../controllers/group_controllers/GroupIdGetController');
 const GroupIdPutController = require('../../controllers/group_controllers/GroupIdPutController');
+const GroupIdPatchController = require('../../controllers/group_controllers/GroupIdPatchController');
 
 class GroupRouter {
     private _router = Router();
@@ -11,6 +12,7 @@ class GroupRouter {
     private _postController = GroupPostController;
     private _getIdController = GroupIdGetController;
     private _putIdController = GroupIdPutController;
+    private _patchIdController = GroupIdPatchController;
 
     get router() {
         return this._router;
@@ -36,6 +38,9 @@ class GroupRouter {
         });
         this._router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
             this._putIdController.putIdGroup(req, res);
+        })
+        this._router.patch('/:id', (req: Request, res: Response, next: NextFunction) => {
+            this._patchIdController.patchIdGroup(req, res);
         })
     }
 }

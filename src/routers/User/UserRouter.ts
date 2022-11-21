@@ -4,6 +4,7 @@ import UserPostController from '../../controllers/user_controllers/UserPostContr
 import UserIdGetController from '../../controllers/user_controllers/UserIdGetController'
 import bodyParser from 'body-parser';
 const UserIdPatchController = require( '../../controllers/user_controllers/UserIdPatchController.js');
+const UserIdPutController = require( '../../controllers/user_controllers/UserIdPutController');
 
 
 class UserRouter {
@@ -11,6 +12,7 @@ class UserRouter {
     private _getController = UserGetController;
     private _postController = UserPostController;
     private _idGetController = UserIdGetController;
+    private _idPutController = UserIdPutController;
     private _idPatchController = UserIdPatchController;
 
     get router() {
@@ -37,6 +39,9 @@ class UserRouter {
         })
         this._router.patch('/:id', (req: Request, res: Response, next: NextFunction) => {
             this._idPatchController.patchIdUser(req, res);
+        })
+        this._router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
+            this._idPutController.putIdUser(req, res);
         })
 
     }
