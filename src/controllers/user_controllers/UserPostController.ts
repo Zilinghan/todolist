@@ -2,22 +2,15 @@ import {Request, Response} from "express";
 const User = require('../../models/User');
 
 class UserPostController {
-    defaultMethod() {
-        return {
-            text: `You've reached the ${this.constructor.name} default method`
-        };
-    }
-
     async postUser(req: Request, res: Response) {
-        console.log(req.body);
+        /* For user, the POST method is used to create new user with certain necessary information such as name and email.
+        *  It does not support two-way reference checking, so for properties such as individualTasks and belongGroups,
+        *  they should not be initialized via the POST method.
+        * */
         const newUser = new User(req.body);
         try {
             const saveRes = await newUser.save();
-            console.log(saveRes)
-            return res.status(201).json({
-                message: "User created!",
-                data: saveRes
-            });
+            return res.status(201).json({message: "User created!", data: saveRes});
         }
         catch (e:any) {
             var err_msg = "";
@@ -32,14 +25,9 @@ class UserPostController {
                     err_msg += e.errors.name.properties.message;
                 }
             }
-            console.log(err_msg);
-            return res.status(400).json({
-                message: err_msg,
-                data: null
-            });
+            return res.status(400).json({message: err_msg, data: null});
         }
     }
-
 }
 
 export = new UserPostController();

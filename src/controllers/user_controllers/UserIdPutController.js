@@ -1,14 +1,10 @@
 const User = require('../../models/User');
 
 class UserIdPutController {
-    defaultMethod() {
-        return {
-            text: `You've reached the ${this.constructor.name} default method`
-        };
-    }
-
     async putIdUser(req, res){
-        /* putIdUser only supports changing the username, user description, and user image */
+        /* For user, the PUT method is only used for changing the username, description, and image of a person.
+        *  It does not check the two-way reference pointer, so it cannot change the individual tasks, belonging groups, etc.
+        * */
         if (req.body.email) {
             delete req.body.email;
         }
@@ -30,21 +26,12 @@ class UserIdPutController {
         try {
             const user = await User.updateOne({_id: req.params.id}, req.body);
             if (user.matchedCount === 0) {
-                return res.status(404).json({
-                    message: "Group not found!",
-                    data: null
-                })
+                return res.status(404).json({message: "User not found!", data: null});
             }
-            return res.status(200).json({
-                message: "Success",
-                data: null
-            })
+            return res.status(200).json({message: "Success", data: null});
         }
         catch (e) {
-            return res.status(404).json({
-                message: "Group not found!",
-                data: null
-            })
+            return res.status(404).json({message: "User not found!", data: null});
         }
     }
 }
