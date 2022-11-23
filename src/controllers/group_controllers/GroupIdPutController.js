@@ -1,14 +1,10 @@
 const Group = require('../../models/Group');
 
 class GroupIdPutController {
-    defaultMethod() {
-        return {
-            text: `You've reached the ${this.constructor.name} default method`
-        };
-    }
-
     async putIdGroup(req, res){
-        /* putIdGroup only supports changing the group name and group description */
+        /* For group, the PUT method is only used for changing the name and the description of the group.
+        *  It does not deal with the two-way reference, so it should not be used for updating other properties.
+        * */
         if (req.body.leaders) {
             delete req.body.leaders;
         }
@@ -27,21 +23,12 @@ class GroupIdPutController {
         try {
             const group = await Group.updateOne({_id: req.params.id}, req.body);
             if (group.matchedCount === 0) {
-                return res.status(404).json({
-                    message: "Group not found!",
-                    data: null
-                })
+                return res.status(404).json({message: "Group not found!", data: null});
             }
-            return res.status(200).json({
-                message: "Success",
-                data: null
-            })
+            return res.status(200).json({message: "Success", data: null});
         }
         catch (e) {
-            return res.status(404).json({
-                message: "Group not found!",
-                data: null
-            })
+            return res.status(404).json({message: "Group not found!", data: null});
         }
     }
 }

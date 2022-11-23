@@ -2,35 +2,23 @@ import {Request, Response} from "express";
 const Group = require('../../models/Group');
 
 class GroupPostController {
-    defaultMethod() {
-        return {
-            text: `You've reached the ${this.constructor.name} default method`
-        };
-    }
-
     async postGroup(req: Request, res: Response) {
-        console.log(req.body);
+        /* For group, the POST method creates a group with its name and description (optional)
+        *  Specifically, POST does not deal with the two-way reference, so you should not initialize other properties here.
+        *  Therefore, for the front-end, if a user creates a new group, the front end should call this POST-group, and then
+        *  PATCH himself/herself as the group leader.
+        * */
         const newGroup = new Group(req.body);
         try {
             const saveRes = await newGroup.save();
-            console.log(saveRes)
-            return res.status(201).json({
-                message: "Group created!",
-                data: saveRes
-            });
+            return res.status(201).json({message: "Group created!", data: saveRes});
         }
         catch (e:any) {
             var err_msg = "";
-            console.log(e.errors)
             if (e.errors.name) {
                 err_msg += e.errors.name.properties.message;
             }
-            console.log(err_msg);
-            res.status(400);
-            return res.json({
-                message: err_msg,
-                data: null
-            });
+            return res.status(400).json({message: err_msg, data: null});
         }
     }
 }

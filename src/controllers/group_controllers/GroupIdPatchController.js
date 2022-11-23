@@ -3,12 +3,6 @@ const Task = require('../../models/Task.js');
 const Group = require('../../models/Group.js');
 
 class GroupIdPatchController {
-    defaultMethod() {
-        return {
-            text: `You've reached the ${this.constructor.name} default method`
-        };
-    }
-
     async patchIdGroup(req, res){
         try {
             if (req.body.leaders) {
