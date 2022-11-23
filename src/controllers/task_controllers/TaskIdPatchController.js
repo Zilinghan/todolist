@@ -36,6 +36,10 @@ class TaskIdPatchController {
                 if (task[0].assignedGroup === "") {
                     await User.updateOne({_id: req.body.assignedUsers}, {$addToSet: {individualTasks: req.params.id}})
                 }
+                /* If group task, update the task to the user's unread task for reminder */
+                else {
+                    await User.updateOne({_id: req.body.assignedUsers}, {$addToSet: {unreadTasks: req.params.id}})
+                }
                 return res.status(200).json({message: "Success", data: null});
             }
             else if (req.body.operation === 'remove') {
@@ -44,12 +48,19 @@ class TaskIdPatchController {
                 if (task[0].assignedGroup === "") {
                     await User.updateOne({_id: req.body.assignedUsers}, {$pull: {individualTasks: req.params.id}})
                 }
+                /* If group task, update the task to the user's unread task for reminder */
+                else {
+                    try {
+                        await User.updateOne({_id: req.body.assignedUsers}, {$pull: {unreadTasks: req.params.id}})
+                    }
+                    catch (e) {
+                    }
+                }
                 return res.status(200).json({message: "Success", data: null});
             }
             else {
                 return res.status(400).json({message: "Bad request: not operation given", data: null});
             }
-
         }
         else {
             return res.status(400).json({message: "Bad request: no given assigned user!", data: null});
