@@ -1,12 +1,6 @@
 const Task = require('../../models/Task');
 
 class TaskGetController {
-    defaultMethod() {
-        return {
-            text: `You've reached the ${this.constructor.name} default method`
-        };
-    }
-
     async getTask(req:any, res: any){
         try{
             const task = await Task.find(req.query.where == null ? {} : JSON.parse(req.query.where))
@@ -15,25 +9,14 @@ class TaskGetController {
                 .sort(req.query.sort == null ? {} : JSON.parse(req.query.sort))
                 .skip(req.query.skip == null ? 0 : parseInt(req.query.skip));
             if (task.length === 0) {
-                return res.status(404).json({
-                    message: "Task not found!",
-                    data: null
-                })
+                return res.status(404).json({message: "Task not found!", data: null});
             }
             else {
-                res.status(200);
-                res.json({
-                    message: "OK",
-                    data: task
-                })
+                return res.status(200).json({message: "OK", data: task});
             }
         }
         catch (error) {
-            console.log(error);
-            return res.status(500).json({
-                message: "Sorry, we meet some sever error for getting you the data.",
-                data: null
-            })
+            return res.status(500).json({message: "Sorry, we meet some sever error for getting you the data.", data: null});
         }
     }
 }

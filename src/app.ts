@@ -26,7 +26,7 @@ console.log("Connected to the database successfully!");
 var allowCrossDomain = function (req:any, res:any, next:any) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept");
-    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS, PATCH");
     next();
 };
 server.app.use(allowCrossDomain);
