@@ -90,24 +90,35 @@ class UserIdPatchController {
                     return res.status(400).json({message: "Given group does not exist!", data: null});
                 }
                 else {
-                    if (req.body.operation === 'add' && req.body.role === 'leader') {
-                        await User.updateOne({_id: req.params.id}, {$addToSet: {invitingGroups: req.body.invitingGroups}});
-                        await Group.updateOne({_id: req.body.invitingGroups}, {$addToSet: {pendingLeaders: req.params.id}});
-                        return res.status(200).json({message: "Success!", data: null});
-                    }
-                    else if (req.body.operation === 'add' && req.body.role === 'member') {
+                    if (req.body.operation === 'add') {
                         await User.updateOne({_id: req.params.id}, {$addToSet: {invitingGroups: req.body.invitingGroups}});
                         await Group.updateOne({_id: req.body.invitingGroups}, {$addToSet: {pendingMembers: req.params.id}});
                         return res.status(200).json({message: "Success!", data: null});
                     }
-                    else if (req.body.operation === 'remove' && req.body.role === 'leader') {
-                        await User.updateOne({_id: req.params.id}, {$pull: {invitingGroups: req.body.invitingGroups}});
-                        await Group.updateOne({_id: req.body.invitingGroups}, {$pull: {pendingLeaders: req.params.id}});
-                        return res.status(200).json({message: "Success!", data: null});
-                    }
-                    else if (req.body.operation === 'remove' && req.body.role === 'member') {
+                    else if (req.body.operation === 'remove') {
                         await User.updateOne({_id: req.params.id}, {$pull: {invitingGroups: req.body.invitingGroups}});
                         await Group.updateOne({_id: req.body.invitingGroups}, {$pull: {pendingMembers: req.params.id}});
+                        return res.status(200).json({message: "Success!", data: null});
+                    }
+                    else {
+                        return res.status(400).json({message: "Bad Request!", data: null});
+                    }
+                }
+            }
+            else if (req.body.invitingLeadingGroups) {
+                const group = await Group.find({_id: req.body.invitingLeadingGroups}).select({_id: 1});
+                if (group.length === 0){
+                    return res.status(400).json({message: "Given group does not exist!", data: null});
+                }
+                else {
+                    if (req.body.operation === 'add') {
+                        await User.updateOne({_id: req.params.id}, {$addToSet: {invitingLeadingGroups: req.body.invitingLeadingGroups}});
+                        await Group.updateOne({_id: req.body.invitingLeadingGroups}, {$addToSet: {pendingLeaders: req.params.id}});
+                        return res.status(200).json({message: "Success!", data: null});
+                    }
+                    else if (req.body.operation === 'remove') {
+                        await User.updateOne({_id: req.params.id}, {$pull: {invitingLeadingGroups: req.body.invitingLeadingGroups}});
+                        await Group.updateOne({_id: req.body.invitingLeadingGroups}, {$pull: {pendingLeaders: req.params.id}});
                         return res.status(200).json({message: "Success!", data: null});
                     }
                     else {

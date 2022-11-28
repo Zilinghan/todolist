@@ -9,6 +9,7 @@ const userSchema = new mongoose.Schema({
     belongingGroups: [String],
     unreadTasks: [String],
     invitingGroups: [String],
+    invitingLeadingGroups: [String],
     description: String,
     image:  {
         data: Buffer,

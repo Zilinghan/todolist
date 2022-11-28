@@ -44,12 +44,12 @@ class GroupIdPatchController {
                 else {
                     if (req.body.operation === 'add') {
                         await Group.updateOne({_id: req.params.id}, {$addToSet: {pendingLeaders: req.body.pendingLeaders}});
-                        await User.updateOne({_id: req.body.pendingLeaders}, {$addToSet: {invitingGroups: req.params.id}});
+                        await User.updateOne({_id: req.body.pendingLeaders}, {$addToSet: {invitingLeadingGroups: req.params.id}});
                         return res.status(200).json({message: "Success!", data: null});
                     }
                     else if (req.body.operation === 'remove') {
                         await Group.updateOne({_id: req.params.id}, {$pull: {pendingLeaders: req.body.pendingLeaders}});
-                        await User.updateOne({_id: req.body.pendingLeaders}, {$pull: {invitingGroups: req.params.id}});
+                        await User.updateOne({_id: req.body.pendingLeaders}, {$pull: {invitingLeadingGroups: req.params.id}});
                         return res.status(200).json({message: "Success!", data: null});
                     }
                     else {
