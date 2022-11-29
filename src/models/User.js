@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: 'User email is required!', unique: true},
     individualTasks: [String],
     belongingGroups: [String],
+    leadingGroups: [String],
     unreadTasks: [String],
     invitingGroups: [String],
     invitingLeadingGroups: [String],

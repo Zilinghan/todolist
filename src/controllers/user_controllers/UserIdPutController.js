@@ -14,6 +14,9 @@ class UserIdPutController {
         if (req.body.belongingGroups) {
             delete req.body.belongingGroups;
         }
+        if (req.body.leadingGroups) {
+            delete req.body.leadingGroups;
+        }
         if (req.body.pendingMembers) {
             delete req.body.pendingMembers;
         }
