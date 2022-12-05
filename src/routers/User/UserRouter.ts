@@ -5,7 +5,10 @@ import UserIdGetController from '../../controllers/user_controllers/UserIdGetCon
 import bodyParser from 'body-parser';
 const UserIdPatchController = require( '../../controllers/user_controllers/UserIdPatchController.js');
 const UserIdPutController = require( '../../controllers/user_controllers/UserIdPutController');
-
+const UserIdPutImageController = require('../../controllers/user_controllers/UserIdPutImageController');
+const multer = require('multer');
+const multerStorage = multer.memoryStorage();
+const upload = multer({ storage: multerStorage, });
 
 class UserRouter {
     private _router = Router();
@@ -14,6 +17,7 @@ class UserRouter {
     private _idGetController = UserIdGetController;
     private _idPutController = UserIdPutController;
     private _idPatchController = UserIdPatchController;
+    private _idPutImageController = UserIdPutImageController;
 
     get router() {
         return this._router;
@@ -43,7 +47,9 @@ class UserRouter {
         this._router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
             this._idPutController.putIdUser(req, res);
         })
-
+        this._router.put('/upload/:id', upload.single('image'), (req: Request, res: Response, next: NextFunction) => {
+            this._idPutImageController.putIdUserImage(req, res);
+        })
     }
 }
 

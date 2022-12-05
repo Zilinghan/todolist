@@ -23,7 +23,7 @@ class UserIdPutController {
         if (req.body.unreadTasks) {
             delete req.body.unreadTasks;
         }
-         if (req.body.invitingGroups) {
+        if (req.body.invitingGroups) {
             delete req.body.unreadTasks;
         }
         try {

@@ -5,6 +5,7 @@ import bodyParser from "body-parser";
 const GroupIdGetController = require('../../controllers/group_controllers/GroupIdGetController');
 const GroupIdPutController = require('../../controllers/group_controllers/GroupIdPutController');
 const GroupIdPatchController = require('../../controllers/group_controllers/GroupIdPatchController');
+const GroupIdDeleteController = require('../../controllers/group_controllers/GroupIdDeleteController');
 
 class GroupRouter {
     private _router = Router();
@@ -13,6 +14,7 @@ class GroupRouter {
     private _getIdController = GroupIdGetController;
     private _putIdController = GroupIdPutController;
     private _patchIdController = GroupIdPatchController;
+    private _deleteIdController = GroupIdDeleteController;
 
     get router() {
         return this._router;
@@ -38,10 +40,13 @@ class GroupRouter {
         });
         this._router.put('/:id', (req: Request, res: Response, next: NextFunction) => {
             this._putIdController.putIdGroup(req, res);
-        })
+        });
         this._router.patch('/:id', (req: Request, res: Response, next: NextFunction) => {
             this._patchIdController.patchIdGroup(req, res);
-        })
+        });
+        this._router.delete('/:id', (req: Request, res: Response, next: NextFunction) => {
+            this._deleteIdController.deleteIdGroup(req, res);
+        });
     }
 }
 

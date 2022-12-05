@@ -5,6 +5,7 @@ import ErrorHandler from './models/ErrorHandler';
 const secrets = require('./config/secret.ts');
 const mongoose = require('mongoose');
 import bodyParser from 'body-parser';
+const multer = require('multer');
 
 
 // load the environment variables from the .env file
@@ -22,6 +23,17 @@ const server = new Server();
 
 mongoose.connect(secrets.mongo_connection, {useNewUrlParser: true});
 console.log("Connected to the database successfully!");
+
+var storage = multer.diskStorage({
+    destination: (req: any, file: any, cb: any) => {
+        cb(null, 'uploads')
+    },
+    filename: (req: any, file: any, cb: any) => {
+        cb(null, file.fieldname + '-' + Date.now())
+    }
+});
+
+var upload = multer({ storage: storage });
 
 var allowCrossDomain = function (req:any, res:any, next:any) {
     res.header("Access-Control-Allow-Origin", "*");
